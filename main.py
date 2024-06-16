@@ -1,14 +1,22 @@
 import telebot
 import settings
+import pandas as pd
 
 bot = telebot.TeleBot(settings.TOKEN)
 
-@bot.message_handler(commands=["хай"])
-def start(m, res = False):
-    bot.send_message(m.chat.id, 'Отправьте P/N')
+def load_order():
+    excel_file = 'My_IPC.xlsx' # Путь к файлу Excel
+    sheet_name = 'Лист1'
 
 @bot.message_handler(content_types = ["text"])
-def handle_text(message):
-    bot.send_message(message.chat.id, 'Вы написали: ' + message.text)
+def get_text_message(message):
+    if message.text == 'A508-28' or message.text == 'a508-28':
+        bot.send_message(message.chat.id, '33-40-03-1_Pos.120')
+    elif message.text == 'W1290-28':
+        bot.send_message(message.chat.id, '33-40-03-1_Pos.110')
+    elif message.text == '/help':
+        bot.send_message(message.chat.id, 'Напиши P/N')
+    else:
+        bot.send_message(message.chat.id, 'Я тебя не понимаю, напиши /help.')
 
 bot.polling(none_stop = True, interval = 0)
