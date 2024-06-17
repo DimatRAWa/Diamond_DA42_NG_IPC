@@ -4,9 +4,10 @@ import pandas as pd
 
 bot = telebot.TeleBot(settings.TOKEN)
 
-def load_order():
-    excel_file = 'My_IPC.xlsx' # Путь к файлу Excel
-    sheet_name = 'Лист1'
+# def load_order():
+    # excel_file = 'My_IPC.xlsx' # Путь к файлу Excel
+    # sheet_name = 'Лист1' # Имя листа с P/N
+    # df = pd.read_excel(excel_file, sheet_name)
 
 @bot.message_handler(content_types = ["text"])
 def get_text_message(message):
