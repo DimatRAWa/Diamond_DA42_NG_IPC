@@ -1,23 +1,29 @@
+import pandas as pd
 import telebot
 import settings
-import pandas as pd
 
 bot = telebot.TeleBot(settings.TOKEN)
 
-# def load_order():
-    # excel_file = 'My_IPC.xlsx' # Путь к файлу Excel
-    # sheet_name = 'Лист1' # Имя листа с P/N
-    # df = pd.read_excel(excel_file, sheet_name)
+def load_orders():
+    excel_file = 'My_IPC.xlsx'  # Путь к файлу Excel
+    sheet_name = 'Лист1'  # Имя листа с P/N
+    df = pd.read_excel(excel_file, sheet_name=sheet_name)  # Загрузка данных в DataFrame
+    #df['P/N'] = df['P/N'].astype(str)
+    #print(df)
+    return df
+print(load_orders, 'successfully executed')
 
-@bot.message_handler(content_types = ["text"])
-def get_text_message(message):
-    if message.text == 'A508-28' or message.text == 'a508-28':
-        bot.send_message(message.chat.id, '33-40-03-1_Pos.120')
-    elif message.text == 'W1290-28':
-        bot.send_message(message.chat.id, '33-40-03-1_Pos.110')
-    elif message.text == '/help':
-        bot.send_message(message.chat.id, 'Напиши P/N')
-    else:
-        bot.send_message(message.chat.id, 'Я тебя не понимаю, напиши /help.')
+@bot.message_handler(commands=['start'])
+def handle_start(message):
+    bot.reply_to(message, 'Привет. Напиши P/N.')
+print(handle_start, 'successfully executed')
 
-bot.polling(none_stop = True, interval = 0)
+@bot.message_handler(func=lambda message: True)
+def hadler_text(message):
+    order_number = message.text.strip()
+    orders_df = load_orders()  # Загрузка данных из Excel-таблицы
+    status = orders_df.loc[orders_df['P/N'] == order_number, 'ATA&Pos'].values  # Поиск позиции
+    bot.reply_to(message, f'P/N {order_number}: {status[0]}')
+print(hadler_text, 'successfully executed')
+
+bot.polling()
