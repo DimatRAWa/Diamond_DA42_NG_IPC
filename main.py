@@ -1,7 +1,12 @@
+import pandas as pd
 import telebot
 import settings
 
 bot = telebot.TeleBot(settings.TOKEN)
+
+excel_file = pd.read_excel(settings.file)
+df = pd.DataFrame(excel_file, columns = ['P/N', 'ATA&Pos'])
+print(df)
 
 @bot.message_handler(commands = ['start'])
 def start(m, res = False):
