@@ -1,3 +1,0 @@
-TOKEN = '7345665873:AAHLeJEV2JcjoC1IIR71_W9cIbmqvb7yjW8'
-
-file = 'My_IPC.xlsx'
