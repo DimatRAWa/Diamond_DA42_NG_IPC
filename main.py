@@ -4,24 +4,22 @@ import settings
 
 bot = telebot.TeleBot(settings.TOKEN)
 
-
-def position_output():
+def load_orders():
     excel_file = settings.file
-    sheet_number = 'Лист1'
-    df = pd.read_excel(excel_file, sheet_name=sheet_number)
+    sheet_name = 'Лист1'
+    df = pd.read_excel(excel_file, sheet_name=sheet_name)
     df['P/N'] = df['P/N'].astype(str)
     return df
 
-@bot.message_handler(commands=['start'])
-def handle_start(message):
-    bot.reply_to(message, 'Привет! Отправь P/N изделия.')
+@bot.message_handler(commands = ['start'])
+def hadle_start(message):
+    bot.reply_to(message, 'Привет! Отправь P/N изделия!')
 
-@bot.message_handler(func=lambda message: True)
+@bot.message_handler(func = lambda message: True)
 def handle_text(message):
-    part_number = message.text.strip()
-    position_df = position_output()
-    position = position_df.loc[position_df['P/N'] == part_number, 'Position'].value
-    bot.reply_to(message, f'Позиция {part_number}: {position}')
+    order_number = message.text.strip()
+    orders_df = load_orders()
+    status = orders_df.loc[orders_df['P/N'] == order_number, 'Position'].values
+    bot.reply_to(message, f'{status[0]}')
 
-
-bot.polling(none_stop=True, interval=0)
+bot.polling()
