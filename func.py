@@ -1,7 +1,6 @@
-
-import pandas as pd  # Добавляем библиотеку pandas для работы с Excel файлом.
-import telebot  # Добвялаем бибилетеку telebot для создания Телеграмм-бота.
-import settings  #
+import telebot
+import pandas as pd
+import settings
 
 bot = telebot.TeleBot(settings.TOKEN)  # Создание бота c использованием ключа Telegrame.
 
@@ -13,7 +12,7 @@ def position_output():  # Создание функции обработки/з�
     return df
 
 @bot.message_handler(commands=['start'])  # Декоратор, реагирующий на команду /start.
-def hadle_start(message):  # Создание функции привественного сообщения.
+def handle_start(message):  # Создание функции привественного сообщения.
     bot.reply_to(message, 'Привет! Отправь P/N изделия!')  # Приветственное сообщение!
 
 @bot.message_handler(func=lambda message: True)
@@ -22,6 +21,3 @@ def handle_text(message):  # Обработчик входящих сообще�
     position_df = position_output()
     position = position_df.loc[position_df['P/N'] == part_number, 'Position'].values  # Выбор из фрейма данных
     bot.reply_to(message, f'{position[0]}')
-
-
-bot.polling(none_stop=True, interval=0)  # Функция опроса сервера Telegrame на предмет новых сообщений.
