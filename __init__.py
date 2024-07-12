@@ -4,10 +4,10 @@ import func
 
 bot = telebot.TeleBot(settings.TOKEN)  # Создание бота c использованием ключа Telegrame.
 
-position_out = func.position_output()
+func.position_output()
 
-start = func.handle_start(message)
+func.start_message(bot)
 
-message_text = func.handle_text()
+func.text_message(bot)
 
 bot.polling(none_stop=True, interval=0)  # Функция опроса сервера Telegrame на предмет новых сообщений.
