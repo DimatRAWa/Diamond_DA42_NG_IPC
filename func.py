@@ -1,6 +1,7 @@
 import telebot
 import pandas as pd
 import settings
+from telebot import types
 
 bot = telebot.TeleBot(settings.TOKEN)  # Создание бота c использованием ключа Telegrame.
 
@@ -15,7 +16,11 @@ def position_output():  # Создание функции обработки/з�
 def start_message(bot):
     @bot.message_handler(commands=['start'])  # Декоратор, реагирующий на команду /start.
     def handle_start(message):  # Создание функции приветственного сообщения.
-        bot.reply_to(message, 'Привет! Отправь P/N изделия!')  # Приветственное сообщение!
+        keyboard = types.InlineKeyboardMarkup()
+        button = types.InlineKeyboardButton('Diamond', url='https://www.diamondaircraft.com/en/')
+        keyboard.add(button)
+        bot.send_message(message.chat.id, 'Привет! Отправь P/N изделия!'.format(message.from_user), reply_markup=keyboard)
+
 def text_message(bot):
     @bot.message_handler(func=lambda message: True)
     def handle_text(message):  # Обработчик входящих сообщений от пользователя.
