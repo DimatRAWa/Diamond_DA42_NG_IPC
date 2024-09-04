@@ -17,7 +17,7 @@ def start_message(bot):
     @bot.message_handler(commands=['start'])  # Декоратор, реагирующий на команду /start.
     def handle_start(message):  # Создание функции приветственного сообщения.
         keyboard = types.InlineKeyboardMarkup()
-        button = types.InlineKeyboardButton('Diamond', url='https://www.diamondaircraft.com/en/')
+        button = types.InlineKeyboardButton('Diamond', url='http://ipc.diamond-air.at:8080/ipp/app?__bk_&__windowid=EGV71162930&__rid=IJM1725472082231#2V10C9D9248E4C6405')
         keyboard.add(button)
         bot.send_message(message.chat.id, 'Привет! Отправь P/N изделия!'.format(message.from_user), reply_markup=keyboard)
 
