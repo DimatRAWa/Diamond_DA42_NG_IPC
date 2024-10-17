@@ -27,4 +27,8 @@ def text_message(bot):
         part_number = message.text.strip()
         position_df = position_output()
         position = position_df.loc[position_df['P/N'] == part_number, 'Position'].values  # Выбор из фрейма данных.
-        bot.reply_to(message, f'{position[0]}')
+        if len(position) > 0:
+            bot.reply_to(message, f'{position[0]}')
+        else:
+            bot.reply_to(message, f'Некорректный P/N. Введите верный P/N.')
+
